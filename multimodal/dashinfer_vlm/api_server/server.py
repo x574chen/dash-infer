@@ -117,12 +117,16 @@ def init():
     context.set("tokenizer", tokenizer)
     cuda_devices = [str(i) for i in range(tensor_parallel_size)]
     compute_unit = "CUDA:" + ",".join(cuda_devices)
+    if hasattr(config, "max_position_embeddings"):
+        engine_max_len = min(config.max_position_embeddings, context.get("max_length"))
+    else:
+        engine_max_len = context.get("max_length")
     # allspark model config
     as_model_config = allspark.AsModelConfig(
         model_name=model_name,
         model_path=as_graph_path,
         weights_path=as_weight_path,
-        engine_max_length=context.get("max_length"),
+        engine_max_length=engine_max_len,
         engine_max_batch=context.get("max_batch"),
         compute_unit=compute_unit,
         enable_prefix_cache=True if context.get("enable_prefix_cache") else False,

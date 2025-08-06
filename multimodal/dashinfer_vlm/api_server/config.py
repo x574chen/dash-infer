@@ -58,7 +58,7 @@ def add_context_args(parser):
         choices=["cuda"],
         help="device (Default: cuda)",
     )
-    group.add_argument("--max_length", type=int, default=32000, help="model max length")
+    group.add_argument("--max_length", type=int, default=128000, help="model max length")
     group.add_argument("--max_batch", type=int, default=128, help="max batch")
     group.add_argument(
         "--parallel_size",

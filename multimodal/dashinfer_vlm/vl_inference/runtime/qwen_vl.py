@@ -267,8 +267,8 @@ class QwenVl:
             "QWEN2-AL": "audio_attention_mask",
             "GUMMY-AL": "audio_attention_mask",
         }
-        self.max_input_len = int(getenv("DS_LLM_MAX_IN_TOKENS", "20000"))
-        self.max_total_len = int(getenv("DS_LLM_MAX_TOKENS", "32000"))
+        self.max_total_len = as_config.engine_max_length
+        self.max_input_len = self.max_total_len - 1
 
     """
     支持input_tokens格式:
